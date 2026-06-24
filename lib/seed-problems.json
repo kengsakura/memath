@@ -1,0 +1,60 @@
+[
+  { "code": "add1", "topic": "การบวก", "stars": 1, "type": "numeric", "question": "หาผลลัพธ์  $8 + 5 = ?$", "choices": [], "answer": "13", "explanation": "$8+5=13$", "time_limit_sec": 30 },
+  { "code": "add2", "topic": "การบวก", "stars": 1, "type": "numeric", "question": "หาผลลัพธ์  $23 + 14 = ?$", "choices": [], "answer": "37", "explanation": "$23+14=37$", "time_limit_sec": 30 },
+  { "code": "add3", "topic": "การบวก", "stars": 2, "type": "choice", "question": "หาผลลัพธ์  $47 + 38 = ?$", "choices": ["75", "85", "84", "95"], "answer": "1", "explanation": "$47+38=85$", "time_limit_sec": null },
+  { "code": "add4", "topic": "การบวก", "stars": 2, "type": "numeric", "question": "หาผลลัพธ์  $125 + 376 = ?$", "choices": [], "answer": "501", "explanation": "$125+376=501$", "time_limit_sec": null },
+
+  { "code": "sub1", "topic": "การลบ", "stars": 1, "type": "numeric", "question": "หาผลลัพธ์  $15 - 9 = ?$", "choices": [], "answer": "6", "explanation": "$15-9=6$", "time_limit_sec": 30 },
+  { "code": "sub2", "topic": "การลบ", "stars": 2, "type": "numeric", "question": "หาผลลัพธ์  $84 - 47 = ?$", "choices": [], "answer": "37", "explanation": "$84-47=37$", "time_limit_sec": null },
+  { "code": "sub3", "topic": "การลบ", "stars": 2, "type": "choice", "question": "หาผลลัพธ์  $300 - 176 = ?$", "choices": ["124", "134", "224", "114"], "answer": "0", "explanation": "$300-176=124$", "time_limit_sec": null },
+  { "code": "sub4", "topic": "การลบ", "stars": 3, "type": "numeric", "question": "หาผลลัพธ์  $1000 - 638 = ?$", "choices": [], "answer": "362", "explanation": "$1000-638=362$", "time_limit_sec": null },
+
+  { "code": "mul1", "topic": "การคูณ", "stars": 1, "type": "choice", "question": "หาผลลัพธ์  $6 \\times 7 = ?$", "choices": ["42", "36", "48", "49"], "answer": "0", "explanation": "$6\\times7=42$", "time_limit_sec": 30 },
+  { "code": "mul2", "topic": "การคูณ", "stars": 2, "type": "numeric", "question": "หาผลลัพธ์  $12 \\times 8 = ?$", "choices": [], "answer": "96", "explanation": "$12\\times8=96$", "time_limit_sec": null },
+  { "code": "mul3", "topic": "การคูณ", "stars": 3, "type": "numeric", "question": "หาผลลัพธ์  $23 \\times 14 = ?$", "choices": [], "answer": "322", "explanation": "$23\\times14=322$", "time_limit_sec": null },
+  { "code": "mul4", "topic": "การคูณ", "stars": 3, "type": "choice", "question": "หาผลลัพธ์  $45 \\times 12 = ?$", "choices": ["540", "450", "560", "640"], "answer": "0", "explanation": "$45\\times12=540$", "time_limit_sec": null },
+
+  { "code": "div1", "topic": "การหาร", "stars": 1, "type": "numeric", "question": "หาผลลัพธ์  $36 \\div 6 = ?$", "choices": [], "answer": "6", "explanation": "$36\\div6=6$", "time_limit_sec": 30 },
+  { "code": "div2", "topic": "การหาร", "stars": 2, "type": "numeric", "question": "หาผลลัพธ์  $144 \\div 12 = ?$", "choices": [], "answer": "12", "explanation": "$144\\div12=12$", "time_limit_sec": null },
+  { "code": "div3", "topic": "การหาร", "stars": 3, "type": "choice", "question": "หาผลลัพธ์  $256 \\div 8 = ?$", "choices": ["32", "34", "28", "36"], "answer": "0", "explanation": "$256\\div8=32$", "time_limit_sec": null },
+  { "code": "div4", "topic": "การหาร", "stars": 3, "type": "numeric", "question": "$50 \\div 7$ เหลือเศษเท่าใด?", "choices": [], "answer": "1", "explanation": "$7\\times7=49$ เหลือเศษ $1$", "time_limit_sec": null },
+
+  { "code": "fr1", "topic": "เศษส่วน", "stars": 2, "type": "numeric", "question": "$\\frac{1}{2} + \\frac{1}{4} = ?$  (ตอบเป็นทศนิยม)", "choices": [], "answer": "0.75", "explanation": "$\\frac{2}{4}+\\frac{1}{4}=\\frac{3}{4}=0.75$", "time_limit_sec": null },
+  { "code": "fr2", "topic": "เศษส่วน", "stars": 3, "type": "choice", "question": "$\\frac{2}{3} + \\frac{1}{6} = ?$", "choices": ["$\\frac{5}{6}$", "$\\frac{3}{9}$", "$\\frac{1}{2}$", "$\\frac{3}{6}$"], "answer": "0", "explanation": "$\\frac{4}{6}+\\frac{1}{6}=\\frac{5}{6}$", "time_limit_sec": null },
+  { "code": "fr3", "topic": "เศษส่วน", "stars": 3, "type": "choice", "question": "$\\frac{3}{4} - \\frac{1}{4} = ?$", "choices": ["$\\frac{1}{2}$", "$\\frac{1}{4}$", "$\\frac{2}{8}$", "$\\frac{3}{8}$"], "answer": "0", "explanation": "$\\frac{2}{4}=\\frac{1}{2}$", "time_limit_sec": null },
+  { "code": "fr4", "topic": "เศษส่วน", "stars": 4, "type": "numeric", "question": "$\\frac{2}{5} \\times 10 = ?$", "choices": [], "answer": "4", "explanation": "$\\frac{2}{5}\\times10=\\frac{20}{5}=4$", "time_limit_sec": null },
+
+  { "code": "dec1", "topic": "ทศนิยม", "stars": 2, "type": "numeric", "question": "$2.5 + 3.7 = ?$", "choices": [], "answer": "6.2", "explanation": "$2.5+3.7=6.2$", "time_limit_sec": null },
+  { "code": "dec2", "topic": "ทศนิยม", "stars": 2, "type": "numeric", "question": "$10 - 4.25 = ?$", "choices": [], "answer": "5.75", "explanation": "$10-4.25=5.75$", "time_limit_sec": null },
+  { "code": "dec3", "topic": "ทศนิยม", "stars": 3, "type": "numeric", "question": "$1.2 \\times 5 = ?$", "choices": [], "answer": "6", "explanation": "$1.2\\times5=6$", "time_limit_sec": null },
+  { "code": "dec4", "topic": "ทศนิยม", "stars": 3, "type": "choice", "question": "$7.5 \\div 2.5 = ?$", "choices": ["3", "2.5", "3.5", "4"], "answer": "0", "explanation": "$7.5\\div2.5=3$", "time_limit_sec": null },
+
+  { "code": "pct1", "topic": "ร้อยละ", "stars": 2, "type": "numeric", "question": "$10\\%$ ของ $200$ เท่ากับเท่าใด?", "choices": [], "answer": "20", "explanation": "$200\\times0.10=20$", "time_limit_sec": null },
+  { "code": "pct2", "topic": "ร้อยละ", "stars": 3, "type": "numeric", "question": "$25\\%$ ของ $80$ เท่ากับเท่าใด?", "choices": [], "answer": "20", "explanation": "$80\\times0.25=20$", "time_limit_sec": null },
+  { "code": "pct3", "topic": "ร้อยละ", "stars": 3, "type": "choice", "question": "$15\\%$ ของ $300$ เท่ากับเท่าใด?", "choices": ["45", "30", "60", "50"], "answer": "0", "explanation": "$300\\times0.15=45$", "time_limit_sec": null },
+  { "code": "pct4", "topic": "ร้อยละ", "stars": 4, "type": "numeric", "question": "ราคา $1500$ บาท ลด $20\\%$ เหลือกี่บาท?", "choices": [], "answer": "1200", "explanation": "$1500\\times0.80=1200$", "time_limit_sec": null },
+
+  { "code": "eq1", "topic": "สมการ", "stars": 2, "type": "numeric", "question": "ถ้า $x + 7 = 12$ แล้ว $x = ?$", "choices": [], "answer": "5", "explanation": "$x=12-7=5$", "time_limit_sec": null },
+  { "code": "eq2", "topic": "สมการ", "stars": 3, "type": "numeric", "question": "ถ้า $3x = 21$ แล้ว $x = ?$", "choices": [], "answer": "7", "explanation": "$x=21\\div3=7$", "time_limit_sec": null },
+  { "code": "eq3", "topic": "สมการ", "stars": 3, "type": "choice", "question": "ถ้า $2x + 3 = 11$ แล้ว $x = ?$", "choices": ["4", "3", "5", "8"], "answer": "0", "explanation": "$2x=8,\\ x=4$", "time_limit_sec": null },
+  { "code": "eq4", "topic": "สมการ", "stars": 4, "type": "numeric", "question": "ถ้า $5x - 4 = 26$ แล้ว $x = ?$", "choices": [], "answer": "6", "explanation": "$5x=30,\\ x=6$", "time_limit_sec": null },
+  { "code": "eq5", "topic": "สมการ", "stars": 5, "type": "numeric", "question": "ถ้า $\\dfrac{x}{4} + 2 = 7$ แล้ว $x = ?$", "choices": [], "answer": "20", "explanation": "$\\frac{x}{4}=5,\\ x=20$", "time_limit_sec": null },
+
+  { "code": "geo1", "topic": "เรขาคณิต", "stars": 2, "type": "numeric", "question": "สี่เหลี่ยมจัตุรัสด้านยาว $6$ ซม. มีพื้นที่กี่ ตร.ซม.?", "choices": [], "answer": "36", "explanation": "$6\\times6=36$", "time_limit_sec": null },
+  { "code": "geo2", "topic": "เรขาคณิต", "stars": 2, "type": "numeric", "question": "สี่เหลี่ยมผืนผ้ากว้าง $4$ ยาว $9$ มีพื้นที่เท่าใด?", "choices": [], "answer": "36", "explanation": "$4\\times9=36$", "time_limit_sec": null },
+  { "code": "geo3", "topic": "เรขาคณิต", "stars": 3, "type": "numeric", "question": "สามเหลี่ยมฐาน $10$ สูง $6$ พื้นที่ $= \\frac{1}{2}\\times b\\times h = ?$", "choices": [], "answer": "30", "explanation": "$\\frac{1}{2}\\times10\\times6=30$", "time_limit_sec": null },
+  { "code": "geo4", "topic": "เรขาคณิต", "stars": 3, "type": "choice", "question": "เส้นรอบรูปสี่เหลี่ยมจัตุรัสด้าน $5$ เท่ากับเท่าใด?", "choices": ["20", "25", "10", "15"], "answer": "0", "explanation": "$4\\times5=20$", "time_limit_sec": null },
+  { "code": "geo5", "topic": "เรขาคณิต", "stars": 4, "type": "numeric", "question": "วงกลมรัศมี $7$ พื้นที่ $\\approx \\frac{22}{7}\\times r^2 = ?$", "choices": [], "answer": "154", "explanation": "$\\frac{22}{7}\\times49=154$", "time_limit_sec": null },
+
+  { "code": "wp1", "topic": "โจทย์ปัญหา", "stars": 2, "type": "numeric", "question": "มีส้ม $24$ ผล แบ่งใส่ $6$ ถุงเท่าๆ กัน ถุงละกี่ผล?", "choices": [], "answer": "4", "explanation": "$24\\div6=4$", "time_limit_sec": null },
+  { "code": "wp2", "topic": "โจทย์ปัญหา", "stars": 3, "type": "numeric", "question": "ซื้อสมุด $3$ เล่ม เล่มละ $15$ บาท จ่ายแบงก์ $100$ ได้เงินทอนกี่บาท?", "choices": [], "answer": "55", "explanation": "$100-45=55$", "time_limit_sec": null },
+  { "code": "wp3", "topic": "โจทย์ปัญหา", "stars": 3, "type": "numeric", "question": "รถวิ่ง $60$ กม./ชม. นาน $3$ ชม. ได้ระยะทางกี่ กม.?", "choices": [], "answer": "180", "explanation": "$60\\times3=180$", "time_limit_sec": null },
+  { "code": "wp4", "topic": "โจทย์ปัญหา", "stars": 4, "type": "choice", "question": "นักเรียน $35$ คน แบ่งกลุ่มละ $5$ คน ได้กี่กลุ่ม?", "choices": ["7", "6", "8", "5"], "answer": "0", "explanation": "$35\\div5=7$", "time_limit_sec": null },
+  { "code": "wp5", "topic": "โจทย์ปัญหา", "stars": 5, "type": "numeric", "question": "พ่อค้าซื้อของ $800$ บาท ขายได้กำไร $25\\%$ ขายไปกี่บาท?", "choices": [], "answer": "1000", "explanation": "$800\\times1.25=1000$", "time_limit_sec": null },
+
+  { "code": "ord1", "topic": "ลำดับการคำนวณ", "stars": 3, "type": "numeric", "question": "$2 + 3 \\times 4 = ?$", "choices": [], "answer": "14", "explanation": "คูณก่อน $3\\times4=12$ แล้ว $+2=14$", "time_limit_sec": null },
+  { "code": "ord2", "topic": "ลำดับการคำนวณ", "stars": 3, "type": "numeric", "question": "$(8 - 3) \\times 2 = ?$", "choices": [], "answer": "10", "explanation": "ในวงเล็บก่อน $5\\times2=10$", "time_limit_sec": null },
+  { "code": "ord3", "topic": "เลขยกกำลัง", "stars": 4, "type": "numeric", "question": "$2^3 + 1 = ?$", "choices": [], "answer": "9", "explanation": "$2^3=8,\\ 8+1=9$", "time_limit_sec": null },
+  { "code": "ord4", "topic": "รากที่สอง", "stars": 4, "type": "choice", "question": "$\\sqrt{81} = ?$", "choices": ["9", "8", "7", "81"], "answer": "0", "explanation": "$9\\times9=81$", "time_limit_sec": null },
+  { "code": "ord5", "topic": "เลขยกกำลัง", "stars": 5, "type": "numeric", "question": "$3^2 + 4^2 = ?$", "choices": [], "answer": "25", "explanation": "$9+16=25$", "time_limit_sec": null }
+]
