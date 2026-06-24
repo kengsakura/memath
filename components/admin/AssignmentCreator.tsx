@@ -14,9 +14,11 @@ function today() {
 export default function AssignmentCreator({
   problems,
   topics,
+  tags,
 }: {
   problems: PickProblem[];
   topics: string[];
+  tags: string[];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -33,6 +35,7 @@ export default function AssignmentCreator({
     count: 5,
     stars: "" as string,
     topic: "" as string,
+    tag: "" as string,
   });
   const [picked, setPicked] = useState<Set<number>>(new Set());
   const [error, setError] = useState("");
@@ -68,6 +71,7 @@ export default function AssignmentCreator({
       body.count = form.count;
       if (form.stars) body.stars = Number(form.stars);
       if (form.topic) body.topic = form.topic;
+      if (form.tag) body.tag = form.tag;
     }
     setSaving(true);
     try {
@@ -146,6 +150,20 @@ export default function AssignmentCreator({
       </div>
 
       {mode === "random" ? (
+        <div className="space-y-3">
+        {tags.length > 0 && (
+          <label className="text-xs text-slate-500 block">
+            ชุด/แท็ก
+            <select className={input} value={form.tag} onChange={(e) => set("tag", e.target.value)}>
+              <option value="">ทุกชุด</option>
+              {tags.map((t) => (
+                <option key={t} value={t}>
+                  🏷️ {t}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
         <div className="grid grid-cols-3 gap-3">
           <label className="text-xs text-slate-500">
             จำนวนข้อ
@@ -173,6 +191,7 @@ export default function AssignmentCreator({
               ))}
             </select>
           </label>
+        </div>
         </div>
       ) : (
         <div className="max-h-64 overflow-y-auto border border-slate-200 rounded-xl divide-y divide-slate-100">

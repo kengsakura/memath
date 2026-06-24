@@ -12,8 +12,12 @@ function normalize(b: Record<string, unknown>) {
   const choices = Array.isArray(b.choices) ? (b.choices as unknown[]).map(String) : [];
   const stars = Math.max(1, Math.min(5, Number(b.stars) || 1));
   const tl = b.time_limit_sec === null || b.time_limit_sec === "" ? null : Number(b.time_limit_sec) || null;
+  const tags = Array.isArray(b.tags)
+    ? (b.tags as unknown[]).map(String)
+    : String(b.tags ?? "").split(",");
   return {
     topic: String(b.topic ?? "").trim(),
+    tags: tags.map((t) => t.trim()).filter(Boolean).join(", "),
     stars,
     type,
     question: String(b.question ?? "").trim(),
@@ -32,9 +36,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "ต้องมีโจทย์และคำตอบ" }, { status: 400 });
   }
   const r = await q<{ id: number }>(
-    `INSERT INTO problems (topic, stars, type, question, choices, answer, explanation, time_limit_sec, published)
-     VALUES (?,?,?,?,?,?,?,?,?) RETURNING id`,
-    [n.topic, n.stars, n.type, n.question, n.choices, n.answer, n.explanation, n.time_limit_sec, n.published]
+    `INSERT INTO problems (topic, tags, stars, type, question, choices, answer, explanation, time_limit_sec, published)
+     VALUES (?,?,?,?,?,?,?,?,?,?) RETURNING id`,
+    [n.topic, n.tags, n.stars, n.type, n.question, n.choices, n.answer, n.explanation, n.time_limit_sec, n.published]
   );
   return NextResponse.json({ ok: true, id: Number(r[0].id) });
 }
@@ -46,8 +50,8 @@ export async function PUT(req: Request) {
   if (!id) return NextResponse.json({ error: "ไม่พบรหัสโจทย์" }, { status: 400 });
   const n = normalize(body);
   await q(
-    `UPDATE problems SET topic=?, stars=?, type=?, question=?, choices=?, answer=?, explanation=?, time_limit_sec=?, published=? WHERE id=?`,
-    [n.topic, n.stars, n.type, n.question, n.choices, n.answer, n.explanation, n.time_limit_sec, n.published, id]
+    `UPDATE problems SET topic=?, tags=?, stars=?, type=?, question=?, choices=?, answer=?, explanation=?, time_limit_sec=?, published=? WHERE id=?`,
+    [n.topic, n.tags, n.stars, n.type, n.question, n.choices, n.answer, n.explanation, n.time_limit_sec, n.published, id]
   );
   return NextResponse.json({ ok: true });
 }

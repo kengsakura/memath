@@ -8,6 +8,7 @@ import StarRating from "@/components/StarRating";
 export type EditableProblem = {
   id: number | null;
   topic: string;
+  tags: string; // คั่นด้วยจุลภาค
   stars: number;
   type: "choice" | "numeric";
   question: string;
@@ -21,6 +22,7 @@ export type EditableProblem = {
 const blank: EditableProblem = {
   id: null,
   topic: "",
+  tags: "",
   stars: 1,
   type: "numeric",
   question: "",
@@ -31,9 +33,27 @@ const blank: EditableProblem = {
   published: 1,
 };
 
+function splitTags(s: string): string[] {
+  return String(s ?? "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+}
+
 export default function ProblemManager({ problems }: { problems: EditableProblem[] }) {
   const router = useRouter();
   const [editing, setEditing] = useState<EditableProblem | null>(null);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  // รวมแท็กทั้งหมดในคลัง (ไม่ซ้ำ) สำหรับทำชิปกรอง
+  const allTags = [...new Set(problems.flatMap((p) => splitTags(p.tags)))].sort();
+
+  const shown = problems.filter((p) => {
+    if (tagFilter && !splitTags(p.tags).includes(tagFilter)) return false;
+    if (search && !p.question.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
 
   async function del(id: number) {
     if (!confirm("ลบโจทย์ข้อนี้?")) return;
@@ -47,8 +67,8 @@ export default function ProblemManager({ problems }: { problems: EditableProblem
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold">🧮 คลังโจทย์ ({problems.length})</h1>
+      <div className="flex items-center justify-between mb-3">
+        <h1 className="text-xl font-bold">🧮 คลังโจทย์ ({shown.length}/{problems.length})</h1>
         <button
           onClick={() => setEditing({ ...blank })}
           className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-4 py-2 rounded-xl text-sm"
@@ -56,6 +76,41 @@ export default function ProblemManager({ problems }: { problems: EditableProblem
           + เพิ่มโจทย์
         </button>
       </div>
+
+      {/* ค้นหา + กรองตามแท็ก/ชุด */}
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="🔍 ค้นหาโจทย์…"
+        className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm mb-2"
+      />
+      {allTags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          <button
+            onClick={() => setTagFilter(null)}
+            className={`text-xs px-2.5 py-1 rounded-full border ${
+              tagFilter === null
+                ? "bg-orange-600 text-white border-orange-600"
+                : "bg-white text-slate-600 border-slate-200"
+            }`}
+          >
+            ทั้งหมด
+          </button>
+          {allTags.map((t) => (
+            <button
+              key={t}
+              onClick={() => setTagFilter(t)}
+              className={`text-xs px-2.5 py-1 rounded-full border ${
+                tagFilter === t
+                  ? "bg-orange-600 text-white border-orange-600"
+                  : "bg-white text-slate-600 border-slate-200 hover:border-orange-300"
+              }`}
+            >
+              🏷️ {t}
+            </button>
+          ))}
+        </div>
+      )}
 
       {editing && (
         <Editor
@@ -69,11 +124,14 @@ export default function ProblemManager({ problems }: { problems: EditableProblem
       )}
 
       <div className="space-y-2">
-        {problems.map((p) => (
+        {shown.length === 0 && (
+          <p className="text-sm text-slate-400 py-6 text-center">ไม่พบโจทย์ตามที่กรอง</p>
+        )}
+        {shown.map((p) => (
           <div key={p.id} className="bg-white rounded-2xl border border-slate-200 p-4">
             <div className="flex items-start gap-3">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center flex-wrap gap-2 mb-1">
                   <StarRating stars={p.stars} size="text-xs" />
                   <span className="text-xs text-slate-400">{p.topic}</span>
                   <span className="text-xs bg-slate-100 rounded px-1.5 py-0.5 text-slate-500">
@@ -83,6 +141,15 @@ export default function ProblemManager({ problems }: { problems: EditableProblem
                     <span className="text-xs text-orange-500">⏱️ {p.time_limit_sec}วิ</span>
                   ) : null}
                   {!p.published && <span className="text-xs text-rose-400">(ซ่อน)</span>}
+                  {splitTags(p.tags).map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setTagFilter(t)}
+                      className="text-xs text-orange-600 bg-orange-50 rounded-full px-2 py-0.5 hover:bg-orange-100"
+                    >
+                      🏷️ {t}
+                    </button>
+                  ))}
                 </div>
                 <div className="text-slate-700">
                   <MathText text={p.question} />
@@ -183,6 +250,24 @@ function Editor({
           value={f.time_limit_sec ?? ""}
           onChange={(e) => set("time_limit_sec", e.target.value === "" ? null : Number(e.target.value))}
         />
+      </div>
+
+      <div>
+        <input
+          className={input}
+          placeholder="แท็ก/ชุด คั่นด้วยจุลภาค เช่น การคูณจำนวนนับ ชุดที่ 1, ป.5"
+          value={f.tags}
+          onChange={(e) => set("tags", e.target.value)}
+        />
+        {splitTags(f.tags).length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-1.5">
+            {splitTags(f.tags).map((t) => (
+              <span key={t} className="text-xs text-orange-600 bg-orange-50 rounded-full px-2 py-0.5">
+                🏷️ {t}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <textarea

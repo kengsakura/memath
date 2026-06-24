@@ -9,7 +9,7 @@ import SEED_PROBLEMS from "./seed-problems.json";
 // SQL ทุกคำสั่งเขียนด้วย placeholder `?` แล้วถูกแปลงเป็น $1..$n ให้เองเมื่อใช้ Postgres
 
 // เพิ่ม SEED_VERSION เมื่อแก้ไขคลังโจทย์ตั้งต้น เพื่อให้ sync ใหม่
-export const SEED_VERSION = 1;
+export const SEED_VERSION = 3;
 
 const PG_URL =
   process.env.POSTGRES_URL ||
@@ -147,8 +147,23 @@ export function nowStr(): string {
 
 async function init() {
   await migrate();
+  await ensureColumns();
   await seedUsers();
   await syncContent();
+}
+
+// เพิ่มคอลัมน์ที่มาทีหลังให้ฐานข้อมูลเดิม (idempotent — มีอยู่แล้วก็ข้าม)
+async function ensureColumns() {
+  const adds = PG_URL
+    ? ["ALTER TABLE problems ADD COLUMN IF NOT EXISTS tags TEXT NOT NULL DEFAULT ''"]
+    : ["ALTER TABLE problems ADD COLUMN tags TEXT NOT NULL DEFAULT ''"];
+  for (const ddl of adds) {
+    try {
+      await rawExec(ddl);
+    } catch {
+      /* คอลัมน์มีอยู่แล้ว (SQLite โยน duplicate column) — ข้าม */
+    }
+  }
 }
 
 const SQLITE_SCHEMA = `
@@ -180,6 +195,7 @@ const SQLITE_SCHEMA = `
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT UNIQUE,
     topic TEXT NOT NULL DEFAULT '',
+    tags TEXT NOT NULL DEFAULT '',
     stars INTEGER NOT NULL DEFAULT 1 CHECK (stars BETWEEN 1 AND 5),
     type TEXT NOT NULL DEFAULT 'numeric' CHECK (type IN ('choice','numeric')),
     question TEXT NOT NULL DEFAULT '',
@@ -252,6 +268,7 @@ const PG_SCHEMA = `
     id BIGSERIAL PRIMARY KEY,
     code TEXT UNIQUE,
     topic TEXT NOT NULL DEFAULT '',
+    tags TEXT NOT NULL DEFAULT '',
     stars INTEGER NOT NULL DEFAULT 1 CHECK (stars BETWEEN 1 AND 5),
     type TEXT NOT NULL DEFAULT 'numeric' CHECK (type IN ('choice','numeric')),
     question TEXT NOT NULL DEFAULT '',
@@ -310,6 +327,7 @@ async function seedUsers() {
 type SeedProblem = {
   code: string;
   topic: string;
+  tags?: string[];
   stars: number;
   type: "choice" | "numeric";
   question: string;
@@ -334,6 +352,7 @@ async function syncContent() {
   for (const p of seed) {
     const params = [
       p.topic,
+      (p.tags ?? []).join(", "),
       p.stars,
       p.type,
       p.question,
@@ -344,14 +363,14 @@ async function syncContent() {
     ];
     if (have.has(p.code)) {
       await rawQuery(
-        `UPDATE problems SET topic=?, stars=?, type=?, question=?, choices=?, answer=?,
+        `UPDATE problems SET topic=?, tags=?, stars=?, type=?, question=?, choices=?, answer=?,
          explanation=?, time_limit_sec=?, published=1 WHERE code=?`,
         [...params, p.code]
       );
     } else {
       await rawQuery(
-        `INSERT INTO problems (topic, stars, type, question, choices, answer, explanation, time_limit_sec, code)
-         VALUES (?,?,?,?,?,?,?,?,?)`,
+        `INSERT INTO problems (topic, tags, stars, type, question, choices, answer, explanation, time_limit_sec, code)
+         VALUES (?,?,?,?,?,?,?,?,?,?)`,
         [...params, p.code]
       );
     }

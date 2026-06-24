@@ -30,12 +30,22 @@ export async function POST(req: Request) {
       where.push("topic = ?");
       params.push(String(b.topic));
     }
-    const cand = await q<{ id: number }>(
-      `SELECT id FROM problems WHERE ${where.join(" AND ")}`,
+    const cand = await q<{ id: number; tags: string }>(
+      `SELECT id, tags FROM problems WHERE ${where.join(" AND ")}`,
       params
     );
+    // กรองตามแท็ก/ชุดใน JS (tags เก็บเป็นสตริงคั่นจุลภาค)
+    const wantTag = String(b.tag ?? "").trim();
+    const filtered = wantTag
+      ? cand.filter((r) =>
+          String(r.tags ?? "")
+            .split(",")
+            .map((t) => t.trim())
+            .includes(wantTag)
+        )
+      : cand;
     // สุ่มสับ (cross-DB: ทำใน JS แทน RANDOM()/random())
-    const ids = cand.map((r) => Number(r.id));
+    const ids = filtered.map((r) => Number(r.id));
     for (let i = ids.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [ids[i], ids[j]] = [ids[j], ids[i]];

@@ -3,7 +3,7 @@ import AppShell from "@/components/AppShell";
 import AssignmentCreator from "@/components/admin/AssignmentCreator";
 import DeleteAssignmentButton from "@/components/admin/DeleteAssignmentButton";
 import { getSession } from "@/lib/auth";
-import { listProblems } from "@/lib/queries";
+import { listProblems, parseTags } from "@/lib/queries";
 import { q } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -20,6 +20,7 @@ export default async function AdminAssignmentsPage() {
     question: p.question,
   }));
   const topics = [...new Set(problems.map((p) => p.topic).filter(Boolean))];
+  const tags = [...new Set(problems.flatMap((p) => parseTags(p.tags)))].sort();
 
   const assignments = await q<{
     id: number;
@@ -41,7 +42,7 @@ export default async function AdminAssignmentsPage() {
     <AppShell session={s} active="/admin/assignments">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-xl font-bold">🎯 ภารกิจ ({assignments.length})</h1>
-        <AssignmentCreator problems={pickList} topics={topics} />
+        <AssignmentCreator problems={pickList} topics={topics} tags={tags} />
       </div>
 
       <div className="space-y-2">

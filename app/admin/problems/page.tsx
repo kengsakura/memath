@@ -13,6 +13,7 @@ export default async function AdminProblemsPage() {
   const problems: EditableProblem[] = (await listProblems(true)).map((p) => ({
     id: p.id,
     topic: p.topic,
+    tags: p.tags,
     stars: p.stars,
     type: p.type,
     question: p.question,

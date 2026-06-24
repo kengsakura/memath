@@ -6,6 +6,7 @@ export type Problem = {
   id: number;
   code: string | null;
   topic: string;
+  tags: string; // คั่นด้วยจุลภาค เช่น "การคูณ ชุด 1, จำนวนนับ"
   stars: number;
   type: "choice" | "numeric";
   question: string;
@@ -59,6 +60,14 @@ export function checkAnswer(
   const cv = parseFloat(String(correctAnswer).replace(",", "."));
   if (Number.isNaN(gv) || Number.isNaN(cv)) return false;
   return Math.abs(gv - cv) < 1e-6;
+}
+
+// แท็กเก็บเป็นสตริงคั่นจุลภาค → แตกเป็นรายการ (ตัดช่องว่าง/ค่าว่าง)
+export function parseTags(s: string): string[] {
+  return String(s ?? "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
 }
 
 export function parseChoices(json: string): string[] {
